@@ -1,15 +1,31 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using StudyProject.Infrastructure.Persistence;
+using StudyProject.WebApi;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
+var services = builder.Services;
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
+services.AddControllers();
+services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
                     builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+services.AddSwaggerGen();
 
 var app = builder.Build();
 
-app.MapGet("/", () => "Hello World!");
+app.UseSwagger();
+app.UseSwaggerUI(options => {
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+    options.RoutePrefix = string.Empty;
+});
 
+app.UseHttpLogging();
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 app.Run();
+
+app.Logger.LogInformation("App has been started!");
