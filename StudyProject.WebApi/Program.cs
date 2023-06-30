@@ -1,7 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using StudyProject.Infrastructure.Persistence;
-using StudyProject.WebApi;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
