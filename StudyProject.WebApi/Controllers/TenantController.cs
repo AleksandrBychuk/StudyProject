@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using StudyProject.Application.ModelsDTO;
+using StudyProject.Application.Services;
 using StudyProject.Domain.Entities;
 using StudyProject.Infrastructure.Persistence;
 
@@ -9,17 +11,17 @@ namespace StudyProject.WebApi.Controllers
     public class TenantController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        public TenantController(ApplicationDbContext context)
+        private readonly TestService _test;
+        public TenantController(ApplicationDbContext context, TestService test)
         {
             _context = context;
+            _test = test;
         }
 
         [HttpGet("test")]
-        public ActionResult<string> Index()
+        public ActionResult<TenantDTO> Index()
         {
-            _context.Tenants.Add(new Tenant { Name = "test", Description = "test" });
-            _context.SaveChanges();
-            return "Hello";
+            return _test.GetTenant(new Tenant { Name = "test", Description = "test" });
         }
     }
 }
