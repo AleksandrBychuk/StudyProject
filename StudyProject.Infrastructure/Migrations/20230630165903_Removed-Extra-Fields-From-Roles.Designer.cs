@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudyProject.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using StudyProject.Infrastructure.Persistence;
 namespace StudyProject.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230630165903_Removed-Extra-Fields-From-Roles")]
+    partial class RemovedExtraFieldsFromRoles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,13 +27,13 @@ namespace StudyProject.Infrastructure.Migrations
 
             modelBuilder.Entity("EmailUser", b =>
                 {
-                    b.Property<Guid>("EmailsId")
+                    b.Property<Guid>("EmailId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("UsersId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("EmailsId", "UsersId");
+                    b.HasKey("EmailId", "UsersId");
 
                     b.HasIndex("UsersId");
 
@@ -200,7 +203,7 @@ namespace StudyProject.Infrastructure.Migrations
                 {
                     b.HasOne("StudyProject.Domain.Entities.Email", null)
                         .WithMany()
-                        .HasForeignKey("EmailsId")
+                        .HasForeignKey("EmailId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
