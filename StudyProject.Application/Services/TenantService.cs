@@ -49,7 +49,8 @@ namespace StudyProject.Application.Services
             if (tenantToUpdate == null)
                 return null;
 
-            tenantToUpdate = tenant;
+            tenantToUpdate.Name = tenant.Name;
+            tenantToUpdate.Description = tenant.Description;
 
             _context.Tenants.Update(tenantToUpdate);
             await _context.SaveChangesAsync();
@@ -77,9 +78,12 @@ namespace StudyProject.Application.Services
             if (tenant == null)
                 return null;
 
-            var user = await _context.Users.FindAsync(userId);
+            var user = await _context.Users.Include(x => x.Emails).FirstOrDefaultAsync(x => x.Id == userId);
 
-            if (tenant == null)
+            if (user == null)
+                return null;
+
+            if (tenant.Users.Any(x => x.Emails.Intersect(user.Emails).Count() > 0))
                 return null;
 
             tenant.Users.Add(user);
