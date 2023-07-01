@@ -1,8 +1,9 @@
-﻿using StudyProject.Domain.Entities;
+﻿using StudyProject.Application.CommonDTO;
+using StudyProject.Domain.Entities;
 
 namespace StudyProject.Application.ModelsDTO
 {
-    internal class UserDTO
+    public class UserDTO : BaseEntityDTO
     {
         public string FullName { get; set; }
         public string RoleName { get; set; }

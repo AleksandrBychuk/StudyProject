@@ -8,7 +8,7 @@ namespace StudyProject.Domain.Validation
         public EmailValidator()
         {
             RuleFor(x => x.Id).NotNull();
-            RuleFor(x => x.Name).Length(0, 50).NotNull().NotEmpty();
+            RuleFor(x => x.EmailAddress).Length(0, 50).NotNull().NotEmpty().EmailAddress();
             RuleFor(x => x.IsDeleted).NotEqual(true);
         }
     }

@@ -1,4 +1,5 @@
 using FluentValidation;
+using FluentValidation.AspNetCore;
 using Mapster;
 using MapsterMapper;
 using Microsoft.EntityFrameworkCore;
@@ -6,6 +7,7 @@ using StudyProject.Application.Mapper;
 using StudyProject.Application.Services;
 using StudyProject.Domain.Validation;
 using StudyProject.Infrastructure.Persistence;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -18,13 +20,17 @@ services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
                     builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
 
-var config = new TypeAdapterConfig();
-new RegisterMapper().Register(config);
+//var config = new TypeAdapterConfig();
+//config.Apply(new RegisterMapper());
+
+var config = TypeAdapterConfig.GlobalSettings;
+config.Apply(new RegisterMapper());
 
 services.AddSingleton(config);
 services.AddScoped<IMapper, ServiceMapper>();
-services.AddTransient<TestService>();
 services.AddValidatorsFromAssemblyContaining<TenantValidator>();
+services.AddFluentValidationClientsideAdapters();
+services.AddTransient<TenantService>();
 
 var app = builder.Build();
 

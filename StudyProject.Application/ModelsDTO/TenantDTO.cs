@@ -1,10 +1,11 @@
-﻿using StudyProject.Domain.Entities;
+﻿using StudyProject.Application.CommonDTO;
 
 namespace StudyProject.Application.ModelsDTO
 {
-    public class TenantDTO
+    public class TenantDTO : BaseEntityDTO
     {
         public string Name { get; set; }
-        public List<string> Users { get; set; }
+        public string Description { get; set; }
+        public List<object> Users { get; set; } = new();
     }
 }
