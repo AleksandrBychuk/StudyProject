@@ -1,9 +1,8 @@
-﻿using StudyProject.Infrastructure.Persistence;
+﻿using Mapster;
 using Microsoft.EntityFrameworkCore;
 using StudyProject.Application.ModelsDTO;
-using Mapster;
 using StudyProject.Domain.Entities;
-using StudyProject.Domain.Validation;
+using StudyProject.Infrastructure.Persistence;
 
 namespace StudyProject.Application.Services
 {
@@ -13,12 +12,12 @@ namespace StudyProject.Application.Services
 
         public TenantService(ApplicationDbContext context)
         {
-            _context = context;            
+            _context = context;
         }
 
         public async Task<TenantDTO> GetByIdAsync(Guid id)
         {
-            var tenant = await _context.Tenants.AsNoTracking().Include(x => x.Users).FirstOrDefaultAsync(x => x.Id == id);
+            var tenant = await _context.Tenants.AsNoTracking().Include(x => x.Users).FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
 
             if (tenant == null)
                 return null;
@@ -29,7 +28,7 @@ namespace StudyProject.Application.Services
         public async Task<List<TenantDTO>> GetAllAsync(int page, int count)
         {
             var skip = page == 1 ? 0 : count * page;
-            var tenants = await _context.Tenants.AsNoTracking().Skip(skip).Take(count).ToListAsync();
+            var tenants = await _context.Tenants.AsNoTracking().Where(x => x.IsDeleted == false).Skip(skip).Take(count).ToListAsync();
 
             return tenants.Adapt<List<TenantDTO>>();
         }
@@ -92,7 +91,7 @@ namespace StudyProject.Application.Services
             return user.Adapt<UserDTO>();
         }
 
-        public async Task<UserDTO> DeleteUserAsync(Guid tenantId, Guid userId)
+        public async Task<UserDTO> RemoveUserAsync(Guid tenantId, Guid userId)
         {
             var tenant = await _context.Tenants.Include(x => x.Users).FirstOrDefaultAsync(x => x.Id == tenantId);
 

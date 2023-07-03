@@ -1,6 +1,5 @@
 ﻿using FluentValidation.AspNetCore;
 using Mapster;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StudyProject.Application.ModelsDTO;
 using StudyProject.Application.Services;
@@ -10,7 +9,7 @@ using StudyProject.Domain.Validation;
 namespace StudyProject.WebApi.Controllers
 {
     [Controller]
-    [Route("Tenant")]
+    [Route("[controller]")]
     public class TenantController : ControllerBase
     {
         private readonly TenantService _tenantService;
@@ -98,7 +97,7 @@ namespace StudyProject.WebApi.Controllers
         [HttpPost("delete-user")]
         public async Task<ActionResult<TenantDTO>> DeleteUser(Guid tenantId, Guid userId)
         {
-            var result = await _tenantService.DeleteUserAsync(tenantId, userId);
+            var result = await _tenantService.RemoveUserAsync(tenantId, userId);
 
             if (result == null)
                 return BadRequest();

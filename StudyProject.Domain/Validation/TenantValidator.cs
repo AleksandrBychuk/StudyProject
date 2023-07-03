@@ -11,7 +11,6 @@ namespace StudyProject.Domain.Validation
             RuleFor(x => x.Name).Length(0, 20).NotNull().NotEmpty();
             RuleFor(x => x.Description).NotEmpty().Length(0, 200);
             RuleFor(x => x.IsDeleted).NotEqual(true);
-            RuleFor(x => x.Users).Must(x => x.GetType() == typeof(List<User>));
             RuleFor(x => x.Users.GroupBy(x => x.Emails).Any(x => x.Count() > 1))
                 .NotEqual(true).When(x => x.Users != null && x.Users.Count != 0);
         }
