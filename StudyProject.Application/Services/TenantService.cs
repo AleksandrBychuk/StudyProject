@@ -17,7 +17,7 @@ namespace StudyProject.Application.Services
 
         public async Task<TenantDTO> GetByIdAsync(Guid id)
         {
-            var tenant = await _context.Tenants.AsNoTracking().Include(x => x.Users).FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
+            var tenant = await _context.Tenants.AsNoTracking().Include(x => x.Users).FirstOrDefaultAsync(x => x.Id == id);
 
             if (tenant == null)
                 return null;
@@ -28,7 +28,7 @@ namespace StudyProject.Application.Services
         public async Task<List<TenantDTO>> GetAllAsync(int page, int count)
         {
             var skip = page == 1 ? 0 : count * page;
-            var tenants = await _context.Tenants.AsNoTracking().Where(x => x.IsDeleted == false).Skip(skip).Take(count).ToListAsync();
+            var tenants = await _context.Tenants.AsNoTracking().Skip(skip).Take(count).ToListAsync();
 
             return tenants.Adapt<List<TenantDTO>>();
         }

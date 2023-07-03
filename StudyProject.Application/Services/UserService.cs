@@ -18,7 +18,7 @@ namespace StudyProject.Application.Services
         public async Task<UserDTO> GetByIdAsync(Guid id)
         {
             var user = await _context.Users.AsNoTracking().Include(x => x.Tenants).Include(x => x.Emails)
-                .FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if (user == null)
                 return null;
@@ -29,7 +29,7 @@ namespace StudyProject.Application.Services
         public async Task<List<UserDTO>> GetAllAsync(int page, int count)
         {
             var skip = page == 1 ? 0 : count * page;
-            var users = await _context.Users.AsNoTracking().Where(x => x.IsDeleted == false).Skip(skip).Take(count).ToListAsync();
+            var users = await _context.Users.AsNoTracking().Skip(skip).Take(count).ToListAsync();
 
             return users.Adapt<List<UserDTO>>();
         }
@@ -71,7 +71,6 @@ namespace StudyProject.Application.Services
             return user.Adapt<UserDTO>();
         }
 
-        //TODO: If email exist
         public async Task<UserDTO> AddEmailAsync(Email email, Guid userId)
         {
             var user = await _context.Users.Include(x => x.Emails).FirstOrDefaultAsync(x => x.Id == userId);

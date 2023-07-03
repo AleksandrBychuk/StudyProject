@@ -29,7 +29,7 @@ namespace StudyProject.WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpGet("get-all")]
+        [HttpGet("get-all/{page}/{count}")]
         public async Task<ActionResult<TenantDTO>> GetAll(int page = 1, int count = 20)
         {
             var result = await _tenantService.GetAllAsync(page, count);
@@ -72,7 +72,7 @@ namespace StudyProject.WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpGet("delete/{id}")]
+        [HttpDelete("delete/{id}")]
         public async Task<ActionResult<TenantDTO>> Delete(Guid id)
         {
             var result = await _tenantService.DeleteAsync(id);
@@ -84,7 +84,7 @@ namespace StudyProject.WebApi.Controllers
         }
 
         [HttpPost("add-user")]
-        public async Task<ActionResult<TenantDTO>> AddUser(Guid tenantId, Guid userId)
+        public async Task<ActionResult<TenantDTO>> AddUser([FromBody] Guid tenantId, [FromBody] Guid userId)
         {
             var result = await _tenantService.AddUserAsync(tenantId, userId);
 
@@ -95,7 +95,7 @@ namespace StudyProject.WebApi.Controllers
         }
 
         [HttpPost("delete-user")]
-        public async Task<ActionResult<TenantDTO>> DeleteUser(Guid tenantId, Guid userId)
+        public async Task<ActionResult<TenantDTO>> DeleteUser([FromBody] Guid tenantId, [FromBody] Guid userId)
         {
             var result = await _tenantService.RemoveUserAsync(tenantId, userId);
 

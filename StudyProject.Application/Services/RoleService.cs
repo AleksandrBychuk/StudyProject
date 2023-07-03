@@ -3,11 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using StudyProject.Application.ModelsDTO;
 using StudyProject.Domain.Entities;
 using StudyProject.Infrastructure.Persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudyProject.Application.Services
 {
@@ -22,7 +17,7 @@ namespace StudyProject.Application.Services
 
         public async Task<RoleDTO> GetByIdAsync(Guid id)
         {
-            var role = await _context.Roles.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id && x.IsDeleted == false);
+            var role = await _context.Roles.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
 
             if (role == null) return null;
 
@@ -32,7 +27,7 @@ namespace StudyProject.Application.Services
         public async Task<List<RoleDTO>> GetAllAsync(int page, int count)
         {
             var skip = page == 1 ? 0 : count * page;
-            var role = await _context.Roles.AsNoTracking().Where(x => x.IsDeleted == false).Skip(skip).Take(count).ToListAsync();
+            var role = await _context.Roles.AsNoTracking().Skip(skip).Take(count).ToListAsync();
 
             return role.Adapt<List<RoleDTO>>();
         }
@@ -62,14 +57,43 @@ namespace StudyProject.Application.Services
 
         public async Task<RoleDTO> DeleteAsync(Guid id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var role = await _context.Roles.FindAsync(id);
 
-            if (user == null) return null;
+            if (role == null) return null;
 
-            _context.Users.Remove(user);
+            _context.Roles.Remove(role);
             await _context.SaveChangesAsync();
 
-            return user.Adapt<RoleDTO>();
+            return role.Adapt<RoleDTO>();
+        }
+
+        public async Task<RoleDTO> AddPermissionAsync(Guid permissionId, Guid roleId)
+        {
+            var role = await _context.Roles.Include(x => x.Permissions).FirstOrDefaultAsync(x => x.Id == roleId);
+            var permission = await _context.Permissions.FirstOrDefaultAsync(x => x.Id == permissionId);
+
+            if (role == null || permission == null) return null;
+
+            if (role.Permissions.Any(x => x.Id == permission.Id)) return null;
+
+            role.Permissions.Add(permission);
+            await _context.SaveChangesAsync();
+
+            return role.Adapt<RoleDTO>();
+        }
+
+        public async Task<RoleDTO> RemovePermissionAsync(Guid permissionId, Guid roleId)
+        {
+            var role = await _context.Roles.Include(x => x.Permissions).FirstOrDefaultAsync(x => x.Id == roleId);
+
+            if (role == null) return null;
+
+            if (!role.Permissions.Any(x => x.Id == permissionId)) return null;
+
+            role.Permissions.RemoveAll(x => x.Id == permissionId);
+            await _context.SaveChangesAsync();
+
+            return role.Adapt<RoleDTO>();
         }
     }
 }

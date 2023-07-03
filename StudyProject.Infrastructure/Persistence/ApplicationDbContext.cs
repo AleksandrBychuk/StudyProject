@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using StudyProject.Domain.Common;
 using StudyProject.Domain.Entities;
 using StudyProject.Infrastructure.Interfaces;
 
@@ -11,6 +12,12 @@ namespace StudyProject.Infrastructure.Persistence
         public DbSet<User> Users => Set<User>();
         public DbSet<Role> Roles => Set<Role>();
         public DbSet<Permission> Permissions => Set<Permission>();
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<BaseEntity>().HasQueryFilter(x => !x.IsDeleted);
+            base.OnModelCreating(modelBuilder);
+        }
 
         public override int SaveChanges()
         {
