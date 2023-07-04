@@ -8,7 +8,7 @@ using StudyProject.Domain.Validation;
 
 namespace StudyProject.WebApi.Controllers
 {
-    [Controller]
+    [ApiController]
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
@@ -29,8 +29,8 @@ namespace StudyProject.WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpGet("get-all/{page}/{count}")]
-        public async Task<ActionResult<UserDTO>> GetAll(int page = 1, int count = 20)
+        [HttpGet("get-all")]
+        public async Task<ActionResult<UserDTO>> GetAll([FromQuery] int page = 1, [FromQuery] int count = 20)
         {
             var result = await _userService.GetAllAsync(page, count);
 
@@ -83,7 +83,7 @@ namespace StudyProject.WebApi.Controllers
         }
 
         [HttpPost("add-email")]
-        public async Task<ActionResult<UserDTO>> AddEmail([FromBody] EmailDTO emailDTO, [FromBody] Guid userId)
+        public async Task<ActionResult<UserDTO>> AddEmail([FromBody] EmailDTO emailDTO, [FromQuery] Guid userId)
         {
             var email = emailDTO.Adapt<Email>();
             var result = await _userService.AddEmailAsync(email, userId);
@@ -94,8 +94,8 @@ namespace StudyProject.WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpPost("remove-email")]
-        public async Task<ActionResult<UserDTO>> RemoveEmail([FromBody] Guid emailId, [FromBody] Guid userId)
+        [HttpDelete("remove-email")]
+        public async Task<ActionResult<UserDTO>> RemoveEmail([FromQuery] Guid emailId, [FromQuery] Guid userId)
         {
             var result = await _userService.RemoveEmailAsync(emailId, userId);
 
@@ -107,7 +107,7 @@ namespace StudyProject.WebApi.Controllers
 
 
         [HttpPut("set-role")]
-        public async Task<ActionResult<UserDTO>> SetRole([FromBody] Guid roleId, [FromBody] Guid userId)
+        public async Task<ActionResult<UserDTO>> SetRole([FromQuery] Guid roleId, [FromQuery] Guid userId)
         {
             var result = await _userService.SetRoleAsync(roleId, userId);
 

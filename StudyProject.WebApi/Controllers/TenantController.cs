@@ -8,7 +8,7 @@ using StudyProject.Domain.Validation;
 
 namespace StudyProject.WebApi.Controllers
 {
-    [Controller]
+    [ApiController]
     [Route("[controller]")]
     public class TenantController : ControllerBase
     {
@@ -84,7 +84,7 @@ namespace StudyProject.WebApi.Controllers
         }
 
         [HttpPost("add-user")]
-        public async Task<ActionResult<TenantDTO>> AddUser([FromBody] Guid tenantId, [FromBody] Guid userId)
+        public async Task<ActionResult<TenantDTO>> AddUser([FromQuery] Guid tenantId, [FromQuery] Guid userId)
         {
             var result = await _tenantService.AddUserAsync(tenantId, userId);
 
@@ -95,7 +95,7 @@ namespace StudyProject.WebApi.Controllers
         }
 
         [HttpPost("delete-user")]
-        public async Task<ActionResult<TenantDTO>> DeleteUser([FromBody] Guid tenantId, [FromBody] Guid userId)
+        public async Task<ActionResult<TenantDTO>> DeleteUser([FromQuery] Guid tenantId, [FromQuery] Guid userId)
         {
             var result = await _tenantService.RemoveUserAsync(tenantId, userId);
 

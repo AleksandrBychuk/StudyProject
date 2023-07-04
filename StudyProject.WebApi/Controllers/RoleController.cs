@@ -8,7 +8,7 @@ using StudyProject.Domain.Validation;
 
 namespace StudyProject.WebApi.Controllers
 {
-    [Controller]
+    [ApiController]
     [Route("[controller]")]
     public class RoleController : ControllerBase
     {
@@ -83,7 +83,7 @@ namespace StudyProject.WebApi.Controllers
         }
 
         [HttpPost("add-permission")]
-        public async Task<ActionResult<RoleDTO>> AddEmail([FromBody] Guid permissionId, [FromBody] Guid userId)
+        public async Task<ActionResult<RoleDTO>> AddEmail([FromBody] Guid permissionId, [FromQuery] Guid userId)
         {
             var result = await _roleService.AddPermissionAsync(permissionId, userId);
 
@@ -94,7 +94,7 @@ namespace StudyProject.WebApi.Controllers
         }
 
         [HttpPost("remove-permission")]
-        public async Task<ActionResult<RoleDTO>> RemoveEmail([FromBody] Guid permissionId, [FromBody] Guid userId)
+        public async Task<ActionResult<RoleDTO>> RemoveEmail([FromQuery] Guid permissionId, [FromQuery] Guid userId)
         {
             var result = await _roleService.RemovePermissionAsync(permissionId, userId);
 

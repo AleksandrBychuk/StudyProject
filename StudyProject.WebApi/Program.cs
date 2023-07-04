@@ -7,7 +7,6 @@ using StudyProject.Application.Mapper;
 using StudyProject.Application.Services;
 using StudyProject.Domain.Validation;
 using StudyProject.Infrastructure.Persistence;
-using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -19,9 +18,6 @@ services.AddSwaggerGen();
 services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
                     builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
-
-//var config = new TypeAdapterConfig();
-//config.Apply(new RegisterMapper());
 
 var config = TypeAdapterConfig.GlobalSettings;
 config.Apply(new RegisterMapper());

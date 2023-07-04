@@ -1,5 +1,4 @@
 ﻿using StudyProject.Application.CommonDTO;
-using StudyProject.Domain.Entities;
 
 namespace StudyProject.Application.ModelsDTO
 {

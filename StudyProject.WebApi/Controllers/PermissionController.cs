@@ -8,7 +8,7 @@ using StudyProject.Domain.Validation;
 
 namespace StudyProject.WebApi.Controllers
 {
-    [Controller]
+    [ApiController]
     [Route("[controller]")]
     public class PermissionController : ControllerBase
     {
