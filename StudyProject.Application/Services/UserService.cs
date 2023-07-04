@@ -1,12 +1,13 @@
 ﻿using Mapster;
 using Microsoft.EntityFrameworkCore;
+using StudyProject.Application.Interfaces;
 using StudyProject.Application.ModelsDTO;
 using StudyProject.Domain.Entities;
 using StudyProject.Infrastructure.Persistence;
 
 namespace StudyProject.Application.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
         private readonly ApplicationDbContext _context;
 

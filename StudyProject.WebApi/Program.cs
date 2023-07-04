@@ -3,6 +3,7 @@ using FluentValidation.AspNetCore;
 using Mapster;
 using MapsterMapper;
 using Microsoft.EntityFrameworkCore;
+using StudyProject.Application.Interfaces;
 using StudyProject.Application.Mapper;
 using StudyProject.Application.Services;
 using StudyProject.Domain.Validation;
@@ -26,7 +27,10 @@ services.AddSingleton(config);
 services.AddScoped<IMapper, ServiceMapper>();
 services.AddValidatorsFromAssemblyContaining<TenantValidator>();
 services.AddFluentValidationClientsideAdapters();
-services.AddTransient<TenantService>();
+services.AddTransient<ITenantService, TenantService>();
+services.AddTransient<IUserService, UserService>();
+services.AddTransient<IRoleService, RoleService>();
+services.AddTransient<IPermissionService, PermissionService>();
 
 var app = builder.Build();
 

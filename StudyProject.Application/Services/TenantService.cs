@@ -1,12 +1,13 @@
 ﻿using Mapster;
 using Microsoft.EntityFrameworkCore;
+using StudyProject.Application.Interfaces;
 using StudyProject.Application.ModelsDTO;
 using StudyProject.Domain.Entities;
 using StudyProject.Infrastructure.Persistence;
 
 namespace StudyProject.Application.Services
 {
-    public class TenantService
+    public class TenantService : ITenantService
     {
         private readonly ApplicationDbContext _context;
 

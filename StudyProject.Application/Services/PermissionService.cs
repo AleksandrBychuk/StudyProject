@@ -1,12 +1,13 @@
 ﻿using Mapster;
 using Microsoft.EntityFrameworkCore;
+using StudyProject.Application.Interfaces;
 using StudyProject.Application.ModelsDTO;
 using StudyProject.Domain.Entities;
 using StudyProject.Infrastructure.Persistence;
 
 namespace StudyProject.Application.Services
 {
-    public class PermissionService
+    public class PermissionService : IPermissionService
     {
         private readonly ApplicationDbContext _context;
 
