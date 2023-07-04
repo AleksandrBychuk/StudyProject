@@ -3,11 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using StudyProject.Application.ModelsDTO;
 using StudyProject.Domain.Entities;
 using StudyProject.Infrastructure.Persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudyProject.Application.Services
 {
@@ -39,6 +34,11 @@ namespace StudyProject.Application.Services
 
         public async Task<PermissionDTO> Create(Permission permission)
         {
+            var existPermission = await _context.Permissions.FirstOrDefaultAsync(x => x.PermissionType == permission.PermissionType);
+
+            if (existPermission is not null)
+                return existPermission.Adapt<PermissionDTO>();
+
             await _context.Permissions.AddAsync(permission);
             await _context.SaveChangesAsync();
 
