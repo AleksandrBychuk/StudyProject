@@ -6,6 +6,6 @@ namespace StudyProject.Application.ModelsDTO
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public List<string> Users { get; set; } = new();
+        public List<UserDTO> Users { get; set; } = new();
     }
 }

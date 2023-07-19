@@ -26,6 +26,8 @@ namespace StudyProject.WebApi.Controllers
         {
             var result = await _userService.GetByIdAsync(id);
 
+            if (result is null) return NoContent();
+
             return Ok(result);
         }
 
@@ -33,6 +35,8 @@ namespace StudyProject.WebApi.Controllers
         public async Task<ActionResult<UserDTO>> GetAll([FromQuery] int page = 1, [FromQuery] int count = 20)
         {
             var result = await _userService.GetAllAsync(page, count);
+
+            if (result is null) return NoContent();
 
             return Ok(result);
         }

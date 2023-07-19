@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using StudyProject.Domain.Common;
 using StudyProject.Domain.Entities;
 using StudyProject.Infrastructure.Interfaces;
 
@@ -15,7 +14,11 @@ namespace StudyProject.Infrastructure.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<BaseEntity>().HasQueryFilter(x => !x.IsDeleted);
+            modelBuilder.Entity<User>().HasQueryFilter(x => !x.IsDeleted);
+            modelBuilder.Entity<Email>().HasQueryFilter(x => !x.IsDeleted);
+            modelBuilder.Entity<Permission>().HasQueryFilter(x => !x.IsDeleted);
+            modelBuilder.Entity<Role>().HasQueryFilter(x => !x.IsDeleted);
+            modelBuilder.Entity<Tenant>().HasQueryFilter(x => !x.IsDeleted);
             base.OnModelCreating(modelBuilder);
         }
 

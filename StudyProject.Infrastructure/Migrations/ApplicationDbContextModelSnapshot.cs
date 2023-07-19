@@ -34,7 +34,7 @@ namespace StudyProject.Infrastructure.Migrations
 
                     b.HasIndex("UsersId");
 
-                    b.ToTable("EmailUser");
+                    b.ToTable("EmailUser", (string)null);
                 });
 
             modelBuilder.Entity("PermissionRole", b =>
@@ -49,7 +49,7 @@ namespace StudyProject.Infrastructure.Migrations
 
                     b.HasIndex("RolesId");
 
-                    b.ToTable("PermissionRole");
+                    b.ToTable("PermissionRole", (string)null);
                 });
 
             modelBuilder.Entity("StudyProject.Domain.Entities.Email", b =>
@@ -72,7 +72,7 @@ namespace StudyProject.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Email");
+                    b.ToTable("Email", (string)null);
                 });
 
             modelBuilder.Entity("StudyProject.Domain.Entities.Permission", b =>
@@ -98,7 +98,7 @@ namespace StudyProject.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Permissions");
+                    b.ToTable("Permissions", (string)null);
                 });
 
             modelBuilder.Entity("StudyProject.Domain.Entities.Role", b =>
@@ -124,7 +124,7 @@ namespace StudyProject.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Roles", (string)null);
                 });
 
             modelBuilder.Entity("StudyProject.Domain.Entities.Tenant", b =>
@@ -150,7 +150,7 @@ namespace StudyProject.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tenants");
+                    b.ToTable("Tenants", (string)null);
                 });
 
             modelBuilder.Entity("StudyProject.Domain.Entities.User", b =>
@@ -178,7 +178,7 @@ namespace StudyProject.Infrastructure.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("TenantUser", b =>
@@ -193,7 +193,7 @@ namespace StudyProject.Infrastructure.Migrations
 
                     b.HasIndex("UsersId");
 
-                    b.ToTable("TenantUser");
+                    b.ToTable("TenantUser", (string)null);
                 });
 
             modelBuilder.Entity("EmailUser", b =>
